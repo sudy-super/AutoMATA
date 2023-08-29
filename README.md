@@ -7,7 +7,11 @@ LLMに能動的推論と疑似意識を実装するツール
 ![automata](https://github.com/sudy-super/AutoMATA/assets/128252727/644fd848-276f-4dfd-9044-1ecaada5d178)
 
 # アーキテクチャ
+
+**全体アーキテクチャ**
 ![スクリーンショット (254)](https://github.com/sudy-super/AutoMATA/assets/128252727/3fe8a618-a719-46d0-b059-769e1917ac59)
+
+**仮説作成/修正・行動生成モジュール**
 ![スクリーンショット (255)](https://github.com/sudy-super/AutoMATA/assets/128252727/2a05bb62-bccc-4181-8d93-0d79dade2744)
 
 # 動作例
