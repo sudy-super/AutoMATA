@@ -3,7 +3,7 @@ import os
 
 class CallLLM:
     def __init__(self):
-        self.openai_api_key = "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" # os.environ["OPENAI_API_KEY"]
+        self.openai_api_key = "sk-replaced_me" # os.environ["OPENAI_API_KEY"]
         self.llm_kind = "gpt"
 
     def call_llms(self, system_prompt, prompt):
