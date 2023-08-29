@@ -9,7 +9,7 @@ class CallLLM:
     def call_llms(self, system_prompt, prompt):
         if self.llm_kind == "gpt":
             res = self.call_gpt(system_prompt, prompt)
-            print("[INFO]Requested with OpenAI API")
+            print("[INFO]Requested OpenAI API")
         
         return res
     
