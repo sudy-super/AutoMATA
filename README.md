@@ -10,5 +10,7 @@ Tools to implement active inferring and pseudo-consciousness in LLM
 
 **TODO**
 □複数のLLMで議決を取る機能を排した軽量モードの実装
+
 □ワーキングメモリ(過去の経験の蓄積)の実装
+
 □脳内会議メンバーにPaLM2, LLaMA2-70bの追加
