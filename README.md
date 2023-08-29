@@ -9,6 +9,7 @@ Tools to implement active inferring and pseudo-consciousness in LLM
 ![スクリーンショット (255)](https://github.com/sudy-super/AutoMATA/assets/128252727/2a05bb62-bccc-4181-8d93-0d79dade2744)
 
 **TODO**
+
 □複数のLLMで議決を取る機能を排した軽量モードの実装
 
 □ワーキングメモリ(過去の経験の蓄積)の実装
