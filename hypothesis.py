@@ -54,21 +54,23 @@ Please select the tools you need to make a hypothesis about the situation inferr
 
         return response["tool"]
 
-    def making_hypothesis(self, input_t, tool):
-        random_llm = random.randint(1, 4) # 思考方法を入力として仮説を提案する脳内会議メンバーを選択
+    def get_system_prompt(self, member_num):
         angel_prompt = """You are an angel. You always try to be positive and tolerant. You are also sincere, ascetic and optimistic about things."""
         devil_prompt = """You are the devil. You constantly try to be critical and intolerant. You are also dishonest, hedonistic, and pessimistic about things."""
         hardboiled_prompt = """You are a hard-boiled person. You are ruthless, not driven by emotions or circumstances, but because you are ruthless, you keep your promises and are dependable."""
         emotional_prompt = """You are an emotional person. You tend to rely on passion and momentum, and you tend to be intense in your joy, anger, and sorrow."""
+        # 仮説を提案する脳内会議メンバーを選択
+        # member_numが1の場合は天使、2の場合は悪魔、3の場合はハードボイルド、4の場合は悲観的
+        prompts = {
+            1: angel_prompt,
+            2: devil_prompt,
+            3: hardboiled_prompt,
+        }
+        return prompts.get(member_num, emotional_prompt)
 
-        if random_llm == 1: # 天使
-            system_prompt = angel_prompt
-        elif random_llm == 2: # 悪魔
-            system_prompt = devil_prompt
-        elif random_llm == 3: # ハードボイルド
-            system_prompt = hardboiled_prompt
-        else:                 # 悲観的
-            system_prompt = emotional_prompt
+    def making_hypothesis(self, input_t, tool):
+        random_llm = random.randint(1, 4) # 思考方法を入力として仮説を提案する脳内会議メンバーを選択
+        system_prompt = self.get_system_prompt(random_llm)
 
 
         if tool == "Random Idea method":
