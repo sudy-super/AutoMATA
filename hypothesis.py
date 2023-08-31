@@ -146,14 +146,8 @@ Please select the tools you need to make a hypothesis about the situation inferr
                 hypothesis = hypothesis # メンバーからのフィードバック時のみフィードバック前の仮説として定義
             except NameError:
                 hypothesis = None
-            # FIXME: feedback_countが未定義なので、必ずNoneになる
-            feedbacks = []
-            for feedback_count in self.feedback_count:
-                try:
-                    feedbacks.append(feedback_count)
-                except NameError:
-                    feedbacks.append(None)
-            # もしfeedbacksの中が全てNoneならば、feedbackをNoneにする
+            # 一週目はfeedback_countが未定義なので、必ずNoneになる
+            feedbacks = self.feedback_count
             if (feedbacks[0] == None) and (feedbacks[1] == None) and (feedbacks[2] == None):
                 feedback = "None"
             else:
