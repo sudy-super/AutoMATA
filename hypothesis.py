@@ -22,7 +22,7 @@ class HYPOTHESIS_TASK:
 class MakeHypothesis:
     def __init__(self):
         self.call_llm = CallLLM()
-        self.feedback_count = [None, None, None]
+        self.hypothesis_feedbacks = [None, None, None]
         self.prompt = '''The following options are given as tools for generating a hypothesis.
 Please select the tools you need to make a hypothesis about the situation inferred from the User's input, and output them in JSON format referring to Example.
 
@@ -72,7 +72,7 @@ Please select the tools you need to make a hypothesis about the situation inferr
         print(response)
         return response["tool"]
 
-    def get_hypothesis_approval(self,approval_llms,vote_prompt,hypothesis) ->bool:
+    def get_hypothesis_approval(self,approval_llms,vote_prompt,hypothesis) ->(bool,list):
         '''
         仮説の提案を判断する関数
         '''
@@ -90,20 +90,19 @@ Please select the tools you need to make a hypothesis about the situation inferr
                 except Exception as e:
                     print(e)
                     print(f"[INFO] 2-{idx}: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
-        # feedback_countとvotesに詰めなおす
-        self.feedback_count = [responses[0]["feedback"], responses[1]["feedback"], responses[2]["feedback"]]
+        # feedbacksとvotesに詰めなおす
+        feedbacks = [responses[0]["feedback"], responses[1]["feedback"], responses[2]["feedback"]]
         votes = [responses[0]["vote"], responses[1]["vote"], responses[2]["vote"]]
-
         agree_count = votes.count("agree")
         disagree_count = votes.count("disagree")
         print("Agree/Disagree: ", agree_count, "/", disagree_count)
 
         if agree_count >= 2:
             print("[Resolution] Approval")
-            return True
+            return True,feedbacks
         else:
             print("[Resolution] Rejection")
-            return False
+            return False,feedbacks
 
     def get_system_prompt(self, member_num)->str:
 
@@ -136,9 +135,21 @@ Please select the tools you need to make a hypothesis about the situation inferr
             return HYPOTHESIS_TASK.INTEGRATED_THINKING
         raise Exception("Invalid tool name")
 
+    def get_hypothesis_prompt(self,hypothesis,system_prompt,task_prompt):
+        feedbacks = self.hypothesis_feedbacks
+        # feedbacksの要素が全てNoneの場合はfeedbackをNoneとする
+        if all(feedback is None for feedback in feedbacks):
+            feedback = "None"
+        else:
+            # Noneが格納されている変数を排除
+            filtered_feedback = ["- " + one_of_feedbacks for one_of_feedbacks in feedbacks if one_of_feedbacks is not None]
+            # 改行で区切った文字列を生成
+            feedback = "\n".join(filtered_feedback)
+        return system_prompt + "\n\n" + task_prompt + f"Also, if a Hypothesis and Feedback exist, please modify the Hypothesis according to the Feedback.\n\nPlease output in JSON format referring to Example.\n\n##ExistingHypothesis\n{hypothesis}\n\n##Feedback\n{feedback}" + '\n\n##Example\n{{"hypothesis": "From this input, it may be said that the woman was lonely."}}'
+
     def making_hypothesis(self, input_t, tool):
         random_llm = random.randint(1, 4) # 思考方法を入力として仮説を提案する脳内会議メンバーを選択
-        system_prompt = self.get_system_prompt(random_llm)
+        
         task_prompt = self.get_task_prompt(tool)
 
         while True: # 否決された場合永遠にフィードバックをするための全体ループ
@@ -146,18 +157,9 @@ Please select the tools you need to make a hypothesis about the situation inferr
                 hypothesis = hypothesis # メンバーからのフィードバック時のみフィードバック前の仮説として定義
             except NameError:
                 hypothesis = None
-            # 一週目はfeedback_countが未定義なので、必ずNoneになる
-            feedbacks = self.feedback_count
-            if (feedbacks[0] == None) and (feedbacks[1] == None) and (feedbacks[2] == None):
-                feedback = "None"
-            else:
-                # Noneが格納されている変数を排除
-                filtered_feedback = ["- " + one_of_feedbacks for one_of_feedbacks in feedbacks if one_of_feedbacks is not None]
-                # 改行で区切った文字列を生成
-                feedback = "\n".join(filtered_feedback)
-
             while True:
-                hypothesis_prompt = system_prompt + "\n\n" + task_prompt + f"Also, if a Hypothesis and Feedback exist, please modify the Hypothesis according to the Feedback.\n\nPlease output in JSON format referring to Example.\n\n##ExistingHypothesis\n{hypothesis}\n\n##Feedback\n{feedback}" + '\n\n##Example\n{{"hypothesis": "From this input, it may be said that the woman was lonely."}}'
+                system_prompt = self.get_system_prompt(random_llm)
+                hypothesis_prompt = self.get_hypothesis_prompt(hypothesis=hypothesis,system_prompt=system_prompt,task_prompt=task_prompt)
                 hypothesis = self.call_llm.call_llms(hypothesis_prompt, input_t)
                 print(hypothesis)
                 try:
@@ -183,22 +185,15 @@ Please outout with JSON format.
                 # 仮説を提案する脳内会議メンバーが天使の場合
                 # 悪魔、ハードボイルド、悲観的の順に仮説を否決するかどうかを判断
                 approval_llms = [LLM_KIND.DEVIL_PROMPT, LLM_KIND.HARDBOILED_PROMPT, LLM_KIND.EMOTIONAL_PROMPT]
-                is_approval = self.get_hypothesis_approval(approval_llms,vote_prompt,hypothesis)
-                if is_approval == True:
-                    break
-                
             elif random_llm == 2:
                 approval_llms = [LLM_KIND.ANGEL_PROMPT, LLM_KIND.HARDBOILED_PROMPT, LLM_KIND.EMOTIONAL_PROMPT]
-                is_approval = self.get_hypothesis_approval(approval_llms,vote_prompt,hypothesis)
-                if is_approval == True:
-                    break
             elif random_llm == 3:
                 approval_llms = [LLM_KIND.ANGEL_PROMPT, LLM_KIND.DEVIL_PROMPT, LLM_KIND.EMOTIONAL_PROMPT]
-                if is_approval == True:
-                    break
             elif random_llm == 4:
                 approval_llms = [LLM_KIND.ANGEL_PROMPT, LLM_KIND.DEVIL_PROMPT, LLM_KIND.HARDBOILED_PROMPT]
-                is_approval = self.get_hypothesis_approval(approval_llms,vote_prompt,hypothesis)
-                if is_approval == True:
-                    break
+
+            is_approval,feedbacks = self.get_hypothesis_approval(approval_llms,vote_prompt,hypothesis)
+            if is_approval == True:
+                break
+            self.hypothesis_feedbacks = feedbacks
         return hypothesis
