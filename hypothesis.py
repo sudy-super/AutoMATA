@@ -15,6 +15,10 @@ Please select the tools you need to make a hypothesis about the situation inferr
 
 ##Example
 {"tool": "Lateral thinking"}'''
+        self.angel_prompt = """You are an angel. You always try to be positive and tolerant. You are also sincere, ascetic and optimistic about things."""
+        self.devil_prompt = """You are the devil. You constantly try to be critical and intolerant. You are also dishonest, hedonistic, and pessimistic about things."""
+        self.hardboiled_prompt = """You are a hard-boiled person. You are ruthless, not driven by emotions or circumstances, but because you are ruthless, you keep your promises and are dependable."""
+        self.emotional_prompt = """You are an emotional person. You tend to rely on passion and momentum, and you tend to be intense in your joy, anger, and sorrow."""
 
     def making_thinking_tool(self, input_t):
         prompt = self.prompt
@@ -55,18 +59,15 @@ Please select the tools you need to make a hypothesis about the situation inferr
         return response["tool"]
 
     def get_system_prompt(self, member_num):
-        angel_prompt = """You are an angel. You always try to be positive and tolerant. You are also sincere, ascetic and optimistic about things."""
-        devil_prompt = """You are the devil. You constantly try to be critical and intolerant. You are also dishonest, hedonistic, and pessimistic about things."""
-        hardboiled_prompt = """You are a hard-boiled person. You are ruthless, not driven by emotions or circumstances, but because you are ruthless, you keep your promises and are dependable."""
-        emotional_prompt = """You are an emotional person. You tend to rely on passion and momentum, and you tend to be intense in your joy, anger, and sorrow."""
+
         # 仮説を提案する脳内会議メンバーを選択
         # member_numが1の場合は天使、2の場合は悪魔、3の場合はハードボイルド、4の場合は悲観的
         prompts = {
-            1: angel_prompt,
-            2: devil_prompt,
-            3: hardboiled_prompt,
+            1: self.angel_prompt,
+            2: self.devil_prompt,
+            3: self.hardboiled_prompt,
         }
-        return prompts.get(member_num, emotional_prompt)
+        return prompts.get(member_num, self.emotional_prompt)
 
     def making_hypothesis(self, input_t, tool):
         random_llm = random.randint(1, 4) # 思考方法を入力として仮説を提案する脳内会議メンバーを選択
@@ -95,7 +96,7 @@ Please select the tools you need to make a hypothesis about the situation inferr
                 hypothesis = hypothesis # メンバーからのフィードバック時のみフィードバック前の仮説として定義
             except NameError:
                 hypothesis = None
-
+            # FIXME: feedback_countが未定義なので、必ずNoneになる
             try:
                 feedback1 = feedback_count[0] # 各メンバーのフィードバックを定義
             except NameError:
@@ -142,7 +143,7 @@ Please outout with JSON format.
 
             if random_llm == 1:
                 while True: # パース失敗に備えたループ
-                    dev_prompt = devil_prompt + "\n\n" + vote_prompt
+                    dev_prompt = self.devil_prompt + "\n\n" + vote_prompt
                     response1 = self.call_llm.call_llms(dev_prompt, hypothesis)
                     
                     try:
@@ -153,7 +154,7 @@ Please outout with JSON format.
                         print("[INFO] 2-1: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
 
                 while True: # パース失敗に備えたループ
-                    hard_prompt = hardboiled_prompt + "\n\n" + vote_prompt
+                    hard_prompt = self.hardboiled_prompt + "\n\n" + vote_prompt
                     response2 = self.call_llm.call_llms(hard_prompt, hypothesis)
 
                     try:
@@ -164,7 +165,7 @@ Please outout with JSON format.
                         print("[INFO] 2-2: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
 
                 while True: # パース失敗に備えたループ
-                    emo_prompt = emotional_prompt + "\n\n" + vote_prompt
+                    emo_prompt = self.emotional_prompt + "\n\n" + vote_prompt
                     response3 = self.call_llm.call_llms(emo_prompt, hypothesis)
                     
                     try:
@@ -192,7 +193,7 @@ Please outout with JSON format.
                 
             elif random_llm == 2:
                 while True:
-                    ang_prompt = angel_prompt + "\n\n" + vote_prompt
+                    ang_prompt = self.angel_prompt + "\n\n" + vote_prompt
                     response1 = self.call_llm.call_llms(ang_prompt, hypothesis)
                     
                     try:
@@ -203,7 +204,7 @@ Please outout with JSON format.
                         print("[INFO] 2-1: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
 
                 while True:
-                    hard_prompt = hardboiled_prompt + "\n\n" + vote_prompt
+                    hard_prompt = self.hardboiled_prompt + "\n\n" + vote_prompt
                     response2 = self.call_llm.call_llms(hard_prompt, hypothesis)
 
                     try:
@@ -214,7 +215,7 @@ Please outout with JSON format.
                         print("[INFO] 2-2: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
 
                 while True:
-                    emo_prompt = emotional_prompt + "\n\n" + vote_prompt
+                    emo_prompt = self.emotional_prompt + "\n\n" + vote_prompt
                     response3 = self.call_llm.call_llms(emo_prompt, hypothesis)
 
                     try:
@@ -241,7 +242,7 @@ Please outout with JSON format.
                     print("[Resolution] Rejection")
             elif random_llm == 3:
                 while True:
-                    ang_prompt = angel_prompt + "\n\n" + vote_prompt
+                    ang_prompt = self.angel_prompt + "\n\n" + vote_prompt
                     response1 = self.call_llm.call_llms(ang_prompt, hypothesis)
 
                     try:
@@ -252,7 +253,7 @@ Please outout with JSON format.
                         print("[INFO] 2-1: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
 
                 while True:
-                    dev_prompt = devil_prompt + "\n\n" + vote_prompt
+                    dev_prompt = self.devil_prompt + "\n\n" + vote_prompt
                     response2 = self.call_llm.call_llms(dev_prompt, hypothesis)
 
                     try:
@@ -263,7 +264,7 @@ Please outout with JSON format.
                         print("[INFO] 2-2: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
 
                 while True:
-                    emo_prompt = emotional_prompt + "\n\n" + vote_prompt
+                    emo_prompt = self.emotional_prompt + "\n\n" + vote_prompt
                     response3 = self.call_llm.call_llms(emo_prompt, hypothesis)
 
                     try:
@@ -290,7 +291,7 @@ Please outout with JSON format.
                     print("[Resolution] Rejection")
             elif random_llm == 4:
                 while True:
-                    ang_prompt = angel_prompt + "\n\n" + vote_prompt
+                    ang_prompt = self.angel_prompt + "\n\n" + vote_prompt
                     response1 = self.call_llm.call_llms(ang_prompt, hypothesis)
 
                     try:
@@ -301,7 +302,7 @@ Please outout with JSON format.
                         print("[INFO] 2-1: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
 
                 while True:
-                    dev_prompt = devil_prompt + "\n\n" + vote_prompt
+                    dev_prompt = self.devil_prompt + "\n\n" + vote_prompt
                     response2 = self.call_llm.call_llms(dev_prompt, hypothesis)
 
                     try:
@@ -312,7 +313,7 @@ Please outout with JSON format.
                         print("[INFO] 2-2: The response from OpenAI API didn't follow the specified format, so it is re-running now.")
 
                 while True:
-                    hard_prompt = hardboiled_prompt + "\n\n" + vote_prompt
+                    hard_prompt = self.hardboiled_prompt + "\n\n" + vote_prompt
                     response3 = self.call_llm.call_llms(hard_prompt, hypothesis)
 
                     try:
