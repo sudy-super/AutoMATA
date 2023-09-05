@@ -4,7 +4,7 @@ Tools to implement active inferring and pseudo-consciousness in LLM
 
 ![automata](https://github.com/sudy-super/AutoMATA/assets/128252727/644fd848-276f-4dfd-9044-1ecaada5d178)
 
-[Japanese ver.](https://github.com/sudy-super/AutoMATA/blob/main/README_ja.md)
+[Japanese ver.](https://github.com/sudy-super/AutoMATA/blob/main/README.md)
 
 # Quick Start
 
