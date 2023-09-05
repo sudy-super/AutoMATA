@@ -3,7 +3,7 @@
 
 LLMに能動的推論と疑似意識を実装するツール
 
-[English ver.](https://github.com/sudy-super/AutoMATA/blob/main/README.md)
+[English ver.](https://github.com/sudy-super/AutoMATA/blob/main/README_en.md)
 
 # アーキテクチャ
 
