@@ -18,7 +18,13 @@ git clone https://github.com/sudy-super/AutoMATA.git
 cd AutoMATA
 ```
 
-3. 実行
+3. 依存ライブラリをインストール
+
+```
+pip install -r requirements.txt
+```
+
+5. 実行
 
 ```
 python main.py
