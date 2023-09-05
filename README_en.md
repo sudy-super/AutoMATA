@@ -20,7 +20,13 @@ git clone https://github.com/sudy-super/AutoMATA.git
 cd AutoMATA
 ```
 
-3. Run
+3. Install requirements
+
+```
+pip install -r requirements.txt
+```
+
+5. Run
 
 ```
 python main.py
