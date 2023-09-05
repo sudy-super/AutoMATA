@@ -2,7 +2,8 @@
 
 Tools to implement active inferring and pseudo-consciousness in LLM
 
-![automata](https://github.com/sudy-super/AutoMATA/assets/128252727/644fd848-276f-4dfd-9044-1ecaada5d178)
+![automata](https://github.com/sudy-super/AutoMATA/assets/128252727/85717201-23c8-4679-b826-b22c44103179)
+
 
 [Japanese ver.](https://github.com/sudy-super/AutoMATA/blob/main/README.md)
 
@@ -35,13 +36,19 @@ python main.py
 # Architecture
 
 **Overview of Architecture**
-![スクリーンショット (254)](https://github.com/sudy-super/AutoMATA/assets/128252727/3fe8a618-a719-46d0-b059-769e1917ac59)
+
+![スクリーンショット (254)](https://github.com/sudy-super/AutoMATA/assets/128252727/0c454e0d-a556-41c8-aca4-36294d5cdf1a)
+
 
 **Making hypothesis/fixing・Making Action Module**
-![スクリーンショット (255)](https://github.com/sudy-super/AutoMATA/assets/128252727/2a05bb62-bccc-4181-8d93-0d79dade2744)
+
+![スクリーンショット (255)](https://github.com/sudy-super/AutoMATA/assets/128252727/45766039-3bed-48bf-ad1c-cc0111d37d06)
+
 
 # Example
-![スクリーンショット (263)](https://github.com/sudy-super/AutoMATA/assets/128252727/e7dca873-f262-48b7-9d6c-c2d6300530a0)
+
+![スクリーンショット (263)](https://github.com/sudy-super/AutoMATA/assets/128252727/de030fe5-f250-4da3-845f-4f508098fc8a)
+
 
 # TODO
 
