@@ -1,5 +1,7 @@
 # AutoMATA (Auto Massively Parallel Thought Agent system)
-![automata](https://github.com/sudy-super/AutoMATA/assets/128252727/644fd848-276f-4dfd-9044-1ecaada5d178)
+
+![automata](https://github.com/sudy-super/AutoMATA/assets/128252727/14e00e91-e0ef-43f2-b679-3240f16e0c03)
+
 
 LLMに能動的推論と疑似意識を実装するツール
 
@@ -33,13 +35,19 @@ python main.py
 # アーキテクチャ
 
 **全体アーキテクチャ**
-![スクリーンショット (254)](https://github.com/sudy-super/AutoMATA/assets/128252727/3fe8a618-a719-46d0-b059-769e1917ac59)
+
+![スクリーンショット (254)](https://github.com/sudy-super/AutoMATA/assets/128252727/c36f314b-a722-476a-a257-52378204c53e)
+
 
 **仮説作成/修正・行動生成モジュール**
-![スクリーンショット (255)](https://github.com/sudy-super/AutoMATA/assets/128252727/2a05bb62-bccc-4181-8d93-0d79dade2744)
+
+![スクリーンショット (255)](https://github.com/sudy-super/AutoMATA/assets/128252727/78c8dd9f-c0c6-4aa3-943b-b63ed1e184f2)
+
 
 # 動作例
-![スクリーンショット (263)](https://github.com/sudy-super/AutoMATA/assets/128252727/e7dca873-f262-48b7-9d6c-c2d6300530a0)
+
+![スクリーンショット (263)](https://github.com/sudy-super/AutoMATA/assets/128252727/10d0c4a6-fd82-4c0f-b156-83483cf80133)
+
 
 # TODO
 
