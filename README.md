@@ -5,6 +5,25 @@ LLMに能動的推論と疑似意識を実装するツール
 
 [English ver.](https://github.com/sudy-super/AutoMATA/blob/main/README_en.md)
 
+# クイックスタート
+
+1. レポジトリをクローン
+```
+git clone https://github.com/sudy-super/AutoMATA.git
+```
+
+2. 該当ディレクトリに移動
+
+```
+cd AutoMATA
+```
+
+3. 実行
+
+```
+python main.py
+```
+
 # アーキテクチャ
 
 **全体アーキテクチャ**
