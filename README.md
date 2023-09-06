@@ -26,7 +26,7 @@ cd AutoMATA
 pip install -r requirements.txt
 ```
 
-4. call_llm.pyを開いてOpenAI APIキーを入力
+4. call_llm.pyの6行目にOpenAI APIキーを入力
 
 5. 実行
 
