@@ -27,7 +27,7 @@ cd AutoMATA
 pip install -r requirements.txt
 ```
 
-5. Run
+4. Run
 
 ```
 python main.py
